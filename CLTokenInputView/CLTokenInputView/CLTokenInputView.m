@@ -26,8 +26,6 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
 @interface CLTokenInputView () <CLBackspaceDetectingTextFieldDelegate, CLTokenViewDelegate>
 
 @property (strong, nonatomic) CL_GENERIC_MUTABLE_ARRAY(CLToken *) *tokens;
-@property (strong, nonatomic) CL_GENERIC_MUTABLE_ARRAY(CLTokenView *) *tokenViews;
-@property (strong, nonatomic) CLBackspaceDetectingTextField *textField;
 @property (strong, nonatomic) UILabel *fieldLabel;
 
 
@@ -230,11 +228,12 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
 
     // Position token views
     CGRect tokenRect = CGRectNull;
+    Boolean firstToken = YES;
     for (UIView *tokenView in self.tokenViews) {
         tokenRect = tokenView.frame;
 
         CGFloat tokenBoundary = isOnFirstLine ? firstLineRightBoundary : rightBoundary;
-        if (curX + CGRectGetWidth(tokenRect) > tokenBoundary) {
+        if (curX + CGRectGetWidth(tokenRect) > tokenBoundary && !firstToken) {
             // Need a new line
             curX = PADDING_LEFT;
             curY += STANDARD_ROW_HEIGHT+VSPACE;
@@ -248,6 +247,7 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
         tokenView.frame = tokenRect;
 
         curX = CGRectGetMaxX(tokenRect) + HSPACE;
+        firstToken = NO;
     }
 
     // Always indent textfield by a little bit

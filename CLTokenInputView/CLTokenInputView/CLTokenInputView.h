@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #import "CLToken.h"
+#import "CLTokenView.h"
+#import "CLBackspaceDetectingTextField.h"
 
 #if __has_feature(objc_generics)
 #define CL_GENERIC_ARRAY(type) NSArray<type>
@@ -86,6 +88,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) IBInspectable UITextAutocapitalizationType autocapitalizationType;
 @property (assign, nonatomic) IBInspectable UITextAutocorrectionType autocorrectionType;
 @property (assign, nonatomic) IBInspectable UIKeyboardAppearance keyboardAppearance;
+
+@property (strong, nonatomic) CL_GENERIC_MUTABLE_ARRAY(CLTokenView *) *tokenViews;
+
 /** 
  * Optional additional characters to trigger the tokenization process (and call the delegate
  * with `tokenInputView:tokenForText:`
@@ -96,6 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) CL_GENERIC_SET(NSString *) *tokenizationCharacters;
 @property (assign, nonatomic) IBInspectable BOOL drawBottomBorder;
 
+@property (strong, nonatomic) CLBackspaceDetectingTextField *textField;
 @property (readonly, nonatomic) CL_GENERIC_ARRAY(CLToken *) *allTokens;
 @property (readonly, nonatomic, getter = isEditing) BOOL editing;
 @property (readonly, nonatomic) CGFloat textFieldDisplayOffset;
